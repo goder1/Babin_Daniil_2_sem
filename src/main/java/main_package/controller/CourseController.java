@@ -24,7 +24,6 @@ public class CourseController {
     return ResponseEntity.status(HttpStatus.OK)
             .body(courseService.getAllCoursesById(id).stream().map(courseData -> new CourseGetResponse(courseData.name())).collect(Collectors.toList()));
   }
-
   @PutMapping("/user/{id}")
   public ResponseEntity<List<CourseGetResponse>> addCourseToUserById(@PathVariable Long id, @RequestBody CourseCreateRequest Course) {
     courseService.addCourse(Course);

@@ -21,7 +21,6 @@ public class UserController {
   public ResponseEntity<Long> createUser(@RequestBody UserCreateRequest request) {
     return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(request));
   }
-
   @GetMapping("/{id}")
   public ResponseEntity<UserGetResponse> getUserById(@PathVariable Long id) {
     UserData user = userService.getUserDataById(id);

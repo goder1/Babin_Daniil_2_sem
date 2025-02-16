@@ -14,7 +14,6 @@ public class InMemoryCourseRepository implements CourseRepository{
     temp.add(new CourseData("Spring Boot conquering"));
     return temp;
   }
-
   @Override
   public Long createCourse(CourseData course) {
     return 3L;

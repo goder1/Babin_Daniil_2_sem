@@ -6,6 +6,5 @@ import java.util.ArrayList;
 
 public interface BookRepository {
   ArrayList<BookData> getBooksById(Long id);
-
   Long createBook(BookData book);
 }

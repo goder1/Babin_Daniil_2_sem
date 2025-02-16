@@ -12,7 +12,6 @@ public class InMemoryUserRepository implements UserRepository{
   public UserData getUserDataById(Long id) {
     return testUserOne;
   }
-
   @Override
   public Long createUser(UserData user) {
     return 3L;

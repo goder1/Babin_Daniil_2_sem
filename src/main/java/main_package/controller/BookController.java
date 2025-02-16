@@ -24,7 +24,6 @@ public class BookController {
     return ResponseEntity.status(HttpStatus.OK)
             .body(bookService.getAllBooksById(id).stream().map(bookData -> new BookGetResponse(bookData.name(), bookData.pages(), bookData.author())).collect(Collectors.toList()));
   }
-
   @PutMapping("/user/{id}")
   public ResponseEntity<List<BookGetResponse>> addBookToUserById(@PathVariable Long id, @RequestBody BookCreateRequest book) {
     bookService.addBook(book);

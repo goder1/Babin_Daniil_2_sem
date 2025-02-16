@@ -24,7 +24,6 @@ public class UniversityController {
     return ResponseEntity.status(HttpStatus.OK)
             .body(universityService.getAllUniversitysById(id).stream().map(universityData -> new UniversityGetResponse(universityData.name(), universityData.students(), universityData.location())).collect(Collectors.toList()));
   }
-
   @PutMapping("/user/{id}")
   public ResponseEntity<List<UniversityGetResponse>> addUniversityToUserById(@PathVariable Long id, @RequestBody UniversityCreateRequest university) {
     universityService.addUniversity(university);

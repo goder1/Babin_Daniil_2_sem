@@ -25,7 +25,7 @@ public class UserService {
   public UserData getUserDataById(Long id) {
     log.info("Getting user with id: {}", id);
     UserData user = userRepository.getUserDataById(id);
-    log.info("Found user with id: {}", id);
+    log.info("Found user with id : {}", id);
     return user;
   }
 }

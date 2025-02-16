@@ -14,7 +14,6 @@ public class InMemoryBookRepository implements BookRepository{
     temp.add(new BookData("MIPT BOT culture", 1000L, "Any_mipt_student"));
     return temp;
   }
-
   @Override
   public Long createBook(BookData book) {
     return 3L;

@@ -6,6 +6,5 @@ import java.util.ArrayList;
 
 public interface CourseRepository {
   ArrayList<CourseData> getAllCoursesById(Long id);
-
   Long createCourse(CourseData course);
 }

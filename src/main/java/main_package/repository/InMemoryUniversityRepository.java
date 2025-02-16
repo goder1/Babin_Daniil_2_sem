@@ -14,7 +14,6 @@ public class InMemoryUniversityRepository implements UniversityRepository{
     temp.add(new UniversityData("MGU", 99L, "Moscow"));
     return temp;
   }
-
   @Override
   public Long createUniversity(UniversityData university) {
     return 3L;
