@@ -12,20 +12,21 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/university")
-public class UniversityController {
+public class UniversityController implements UniversityControllerInterface{
   private final UniversityService universityService;
 
   public UniversityController(UniversityService universityService) {
     this.universityService = universityService;
   }
 
-  @GetMapping("/user/{id}")
-  public ResponseEntity<List<UniversityGetResponse>> getAllUniversitiesByUserId(@PathVariable Long id) {
+  @Override
+  public ResponseEntity<List<UniversityGetResponse>> getAllUniversitiesByUserId(Long id) {
     return ResponseEntity.status(HttpStatus.OK)
             .body(universityService.getAllUniversitysById(id).stream().map(universityData -> new UniversityGetResponse(universityData.name(), universityData.students(), universityData.location())).collect(Collectors.toList()));
   }
-  @PutMapping("/user/{id}")
-  public ResponseEntity<List<UniversityGetResponse>> addUniversityToUserById(@PathVariable Long id, @RequestBody UniversityCreateRequest university) {
+
+  @Override
+  public ResponseEntity<List<UniversityGetResponse>> addUniversityToUserById(Long id, UniversityCreateRequest university) {
     universityService.addUniversity(university);
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }

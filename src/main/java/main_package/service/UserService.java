@@ -15,11 +15,11 @@ public class UserService {
     this.userRepository = userRepository;
   }
 
-  public Long createUser(UserCreateRequest request) {
+  public UserData createUser(UserCreateRequest request) {
     log.info("Creating new user with name: {}", request.name());
-    Long userId = userRepository.createUser(new UserData(request.name(), request.age()));
-    log.info("Created new user with id: {}", userId);
-    return userId;
+    UserData newUser = userRepository.createUser(new UserData(request.name(), request.age()));
+    log.info("Created new user");
+    return newUser;
   }
 
   public UserData getUserDataById(Long id) {

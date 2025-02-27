@@ -2,6 +2,7 @@ package main_package.controller;
 
 import main_package.entity.UserData;
 import main_package.request.UserCreateRequest;
+import main_package.response.UserCreateResponse;
 import main_package.response.UserGetResponse;
 import main_package.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -10,19 +11,21 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/user")
-public class UserController {
+public class UserController implements UserControllerInterface{
   private final UserService userService;
 
   public UserController(UserService userService) {
     this.userService = userService;
   }
 
-  @PostMapping("/")
-  public ResponseEntity<Long> createUser(@RequestBody UserCreateRequest request) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(request));
+  @Override
+  public ResponseEntity<UserCreateResponse> createUser(UserCreateRequest request) {
+    UserData newUser = userService.createUser(request);
+    return ResponseEntity.status(HttpStatus.CREATED).body(new UserCreateResponse(newUser.name(), newUser.age()));
   }
-  @GetMapping("/{id}")
-  public ResponseEntity<UserGetResponse> getUserById(@PathVariable Long id) {
+
+  @Override
+  public ResponseEntity<UserGetResponse> getUserById(Long id) {
     UserData user = userService.getUserDataById(id);
     return ResponseEntity.status(HttpStatus.OK).body(new UserGetResponse(user.name(), user.age()));
   }

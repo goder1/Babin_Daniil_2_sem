@@ -2,7 +2,10 @@ package main_package.service;
 
 import lombok.extern.slf4j.Slf4j;
 import main_package.entity.CourseData;
+import main_package.entity.CourseData;
+import main_package.entity.CourseData;
 import main_package.repository.CourseRepository;
+import main_package.request.CourseCreateRequest;
 import main_package.request.CourseCreateRequest;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +32,19 @@ public class CourseService {
     ArrayList<CourseData> courses = courseRepository.getAllCoursesById(id);
     log.info("Found courses with user id: {}", id);
     return courses;
+  }
+
+  public CourseData modifyCourseById(Long userId, Long courseId, CourseCreateRequest request) {
+    log.info("Modifying course with user_id: {} and course_id: {}", userId, courseId);
+    CourseData newCourse = courseRepository.modifyCourseById(userId, courseId, new CourseData(request.name()));
+    log.info("Modified user course with user_id: {} and course_id: {}", userId, courseId);
+    return newCourse;
+  }
+
+  public CourseData deleteCourseById(Long userId, Long courseId) {
+    log.info("Deleting course with user_id: {} and course_id: {}", userId, courseId);
+    CourseData oldCourse = courseRepository.deleteCourseById(userId, courseId);
+    log.info("Deleted user course with user_id: {} and course_id: {}", userId, courseId);
+    return oldCourse;
   }
 }
