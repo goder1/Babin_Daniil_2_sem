@@ -26,7 +26,7 @@ public class BookService {
   public ArrayList<BookData> getAllBooksById(Long id) {
     log.info("Getting books with user id: {}", id);
     ArrayList<BookData> books = bookRepository.getBooksById(id);
-    log.info("Found book with user id : {}", id);
+    log.info("Found book with user id: {}", id);
     return books;
   }
 }

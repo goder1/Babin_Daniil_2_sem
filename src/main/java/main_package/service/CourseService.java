@@ -27,7 +27,7 @@ public class CourseService {
   public ArrayList<CourseData> getAllCoursesById(Long id) {
     log.info("Getting courses with user id: {}", id);
     ArrayList<CourseData> courses = courseRepository.getAllCoursesById(id);
-    log.info("Found courses with user id : {}", id);
+    log.info("Found courses with user id: {}", id);
     return courses;
   }
 }
