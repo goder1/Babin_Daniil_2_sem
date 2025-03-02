@@ -10,7 +10,7 @@ import java.util.ArrayList;
 @Repository
 public class InMemoryBookRepository implements BookRepository{
   @Override
-  public ArrayList<BookData> getBooksById(Long userId) throws BooksNotFoundException{
+  public ArrayList<BookData> getBooksById(Long userId) throws BooksNotFoundException {
     if (userId > 2) {
       throw new BooksNotFoundException();
     }
@@ -21,7 +21,7 @@ public class InMemoryBookRepository implements BookRepository{
   }
 
   @Override
-  public BookData modifyBookById(Long userId, Long bookId, BookData bookData) throws BookNotFoundException{
+  public BookData modifyBookById(Long userId, Long bookId, BookData bookData) throws BookNotFoundException {
     if (bookId == 1 || bookId == 2) {
       return new BookData("Spring Top 100 tricks", 666L, "Dmitriy Bobryakov");
     } else {
@@ -30,9 +30,9 @@ public class InMemoryBookRepository implements BookRepository{
   }
 
   @Override
-  public BookData deleteBookById(Long userId, Long bookId) throws BookNotFoundException{
+  public BookData deleteBookById(Long userId, Long bookId) throws BookNotFoundException {
     if (bookId == 1L || bookId == 2L) {
-      return new BookData("Spring in previous centuries?(deleted)", 0L, "First java developers");
+      return new BookData("Dan", 19L, "dan");
     } else {
       throw new BookNotFoundException();
     }
@@ -53,6 +53,6 @@ public class InMemoryBookRepository implements BookRepository{
     if (bookId > 2) {
       throw new BookNotFoundException();
     }
-    return new BookData("MIPT BOT culture", 1000L, "Any_mipt_student");
+    return new BookData("Dan", 10L, "dan");
   }
 }

@@ -39,10 +39,11 @@ public class BookService {
 
   public BookData deleteBookById(Long userId, Long bookId) {
     log.info("Deleting book with user_id: {} and book_id: {}", userId, bookId);
-    //BookData oldBook = bookRepository.deleteBookById(userId, bookId);
+    BookData oldBook = bookRepository.deleteBookById(userId, bookId);
+
     log.info("Deleted user book with user_id: {} and book_id: {}", userId, bookId);
-    //return oldBook;
-    return new BookData("Dan", 19L, "dan");
+    return oldBook;
+//    return new BookData("Dan", 19L, "dan");
   }
 
   public void createBooksForUserById(Long userId) {
@@ -54,6 +55,7 @@ public class BookService {
   public BookData getBookById(Long userId, Long bookId) {
     log.info("Getting book from user with id: {} and book with id: {}", userId, bookId);
     BookData book = bookRepository.getBookById(userId, bookId);
+    log.info(book.toString() + "_________");
     log.info("Successfully got book from user with id: {} and book with id: {}", userId, bookId);
     return book;
     //return new BookData("Dan", 19L, "Dan");

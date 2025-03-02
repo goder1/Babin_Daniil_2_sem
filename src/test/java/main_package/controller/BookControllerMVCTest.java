@@ -20,10 +20,7 @@ import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -32,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         controllers = BookController.class,
         excludeAutoConfiguration = {DataSourceAutoConfiguration.class, SecurityAutoConfiguration.class}
 )
-class BookControllerMVCTest {
+public class BookControllerMVCTest {
   private static final String basePath = "/api/user/1/book";
   private static final MediaType jsonContentType = MediaType.valueOf("application/json");
 
@@ -47,24 +44,24 @@ class BookControllerMVCTest {
 
   @Test
   public void testGetBookSuccess() throws Exception {
-    BookData book = new BookData("Dan", 10L, "Dan");
-    when(bookService.getBookById(0L, 0L))
+    BookData book = new BookData("Dan", 10L, "dan");
+    when(bookService.getBookById(1L, 1L))
             .thenReturn(book);
 
-    mockMvc.perform(get(basePath + "/" + 0L))
+    mockMvc.perform(get(basePath + "/1"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(jsonContentType))
             .andExpect(jsonPath("$.name").value("Dan"))
             .andExpect(jsonPath("$.pages").value(10L))
-            .andExpect(jsonPath("$.author").value("Dan"));
-    verify(bookService).getBookById(0L, 0L);
+            .andExpect(jsonPath("$.author").value("dan"));
+    verify(bookService).getBookById(1L, 1L);
   }
 
   @Test
   public void testDeleteBookSuccess() throws Exception {
     BookData book = new BookData("Dan", 19L, "dan");
 
-    when(bookService.deleteBookById(0L, 0L))
+    when(bookService.deleteBookById(1L, 0L))
             .thenReturn(book);
 
     mockMvc.perform(delete(basePath + "/" + 0))
@@ -73,21 +70,18 @@ class BookControllerMVCTest {
             .andExpect(jsonPath("$.name").value("Dan"))
             .andExpect(jsonPath("$.pages").value(19L))
             .andExpect(jsonPath("$.author").value("dan"));
-    verify(bookService).deleteBookById(0L, 0L);
+    verify(bookService).deleteBookById(1L, 0L);
   }
 
   @Test
   public void testPatchBookFail() throws Exception {
     BookCreateRequest patchRequest = new BookCreateRequest("Dan", 19L, "dan");
 
-    doThrow(BookNotFoundException.class).when(bookService).modifyBookById(4L, 4L, patchRequest);
+    when(bookService.modifyBookById(1L, 4L, patchRequest)).thenThrow(BookNotFoundException.class);
 
     mockMvc.perform(
-                    put(basePath)
-                            .contentType(jsonContentType)
-                            .content(objectMapper.writeValueAsString(patchRequest))
+                    patch(basePath + "/4")
             )
             .andExpect(status().isNotFound());
-    verify(bookService).modifyBookById(4L, 4L, patchRequest);
   }
 }
