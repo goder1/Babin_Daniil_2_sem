@@ -1,5 +1,7 @@
 package main_package.controller;
 
+import io.github.resilience4j.circuitbreaker.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.RateLimiter;
 import main_package.entity.CourseData;
 import main_package.request.CourseCreateRequest;
 import main_package.response.CourseDeleteResponse;
@@ -17,6 +19,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/user/{userId}")
 public class CourseController implements CourseControllerInterface{
   private final CourseService courseService;
+  private final CircuitBreaker circuitBreaker = CircuitBreaker.ofDefaults("CourseControllerCircuitBreaker");
+  private final RateLimiter rateLimiter = RateLimiter.ofDefaults("CourseControllerRateLimiter");
 
   public CourseController(CourseService courseService) {
     this.courseService = courseService;
@@ -24,25 +28,33 @@ public class CourseController implements CourseControllerInterface{
 
   @Override
   public ResponseEntity<List<CourseGetResponse>> getAllCoursesByUserId(Long userId) {
-    return ResponseEntity.status(HttpStatus.OK)
-            .body(courseService.getAllCoursesById(userId).stream().map(courseData -> new CourseGetResponse(courseData.name())).collect(Collectors.toList()));
+    return circuitBreaker.executeSupplier(() -> rateLimiter.executeSupplier(() -> {
+      return ResponseEntity.status(HttpStatus.OK)
+          .body(courseService.getAllCoursesById(userId).stream().map(courseData -> new CourseGetResponse(courseData.name())).collect(Collectors.toList()));
+    }));
   }
 
   @Override
   public ResponseEntity<List<CourseGetResponse>> addCourseToUserById(Long userId, CourseCreateRequest Course) {
-    courseService.addCourse(Course);
-    return ResponseEntity.status(HttpStatus.CREATED).build();
+    return circuitBreaker.executeSupplier(() -> rateLimiter.executeSupplier(() -> {
+      courseService.addCourse(Course);
+      return ResponseEntity.status(HttpStatus.CREATED).build();
+    }));
   }
 
   @Override
   public ResponseEntity<CoursePatchResponse> modifyCourseByUserId(Long userId, Long courseId, CourseCreateRequest course) {
-    CourseData newCourse = courseService.modifyCourseById(userId, courseId, course);
-    return ResponseEntity.status(HttpStatus.OK).body(new CoursePatchResponse(newCourse.name()));
+    return circuitBreaker.executeSupplier(() -> rateLimiter.executeSupplier(() -> {
+      CourseData newCourse = courseService.modifyCourseById(userId, courseId, course);
+      return ResponseEntity.status(HttpStatus.OK).body(new CoursePatchResponse(newCourse.name()));
+    }));
   }
 
   @Override
   public ResponseEntity<CourseDeleteResponse> deleteCourseByUserId(Long userId, Long courseId) {
-    CourseData oldCourse = courseService.deleteCourseById(userId, courseId);
-    return ResponseEntity.status(HttpStatus.OK).body(new CourseDeleteResponse(oldCourse.name()));
+    return circuitBreaker.executeSupplier(() -> rateLimiter.executeSupplier(() -> {
+      CourseData oldCourse = courseService.deleteCourseById(userId, courseId);
+      return ResponseEntity.status(HttpStatus.OK).body(new CourseDeleteResponse(oldCourse.name()));
+    }));
   }
 }

@@ -41,9 +41,16 @@ public class CourseService {
     return newCourse;
   }
 
+//  Удаление курса должно произойти и произойти ровно один раз, чтобы
+//  у пользователя не снимались деньги за курс, от которого он отписался (например)
   public CourseData deleteCourseById(Long userId, Long courseId) {
     log.info("Deleting course with user_id: {} and course_id: {}", userId, courseId);
-    CourseData oldCourse = courseRepository.deleteCourseById(userId, courseId);
+    Long temp = courseId;
+    CourseData oldCourse = null;
+    while (courseRepository.findCourseById(userId, temp)) {
+      oldCourse = courseRepository.deleteCourseById(userId, temp);
+      temp = -1L;
+    }
     log.info("Deleted user course with user_id: {} and course_id: {}", userId, courseId);
     return oldCourse;
   }

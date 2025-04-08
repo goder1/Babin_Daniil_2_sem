@@ -24,7 +24,7 @@ public class UniversityService {
     return universityId;
   }
 
-  public ArrayList<UniversityData> getAllUniversitysById(Long id) {
+  public ArrayList<UniversityData> getAllUniversitiesById(Long id) {
     log.info("Getting Universities with user id: {}", id);
     ArrayList<UniversityData> universities = universityRepository.getAllUniversitiesDataById(id);
     log.info("Found Universities with user id: {}", id);

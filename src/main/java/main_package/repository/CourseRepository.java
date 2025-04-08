@@ -11,4 +11,5 @@ public interface CourseRepository {
   Long createCourse(CourseData course);
   CourseData modifyCourseById(Long userId, Long courseId, CourseData courseData) throws CourseNotFoundException;
   CourseData deleteCourseById(Long userId, Long courseId) throws CourseNotFoundException;
+  boolean findCourseById(Long userId, Long courseId);
 }

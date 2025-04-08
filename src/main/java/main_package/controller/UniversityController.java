@@ -1,5 +1,6 @@
 package main_package.controller;
 
+import io.github.resilience4j.ratelimiter.RateLimiter;
 import main_package.request.UniversityCreateRequest;
 import main_package.response.UniversityGetResponse;
 import main_package.service.UniversityService;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/university")
 public class UniversityController implements UniversityControllerInterface{
   private final UniversityService universityService;
+  private final RateLimiter rateLimiter = RateLimiter.ofDefaults("UniversityControllerRateLimiter");
 
   public UniversityController(UniversityService universityService) {
     this.universityService = universityService;
@@ -21,13 +23,17 @@ public class UniversityController implements UniversityControllerInterface{
 
   @Override
   public ResponseEntity<List<UniversityGetResponse>> getAllUniversitiesByUserId(Long id) {
-    return ResponseEntity.status(HttpStatus.OK)
-            .body(universityService.getAllUniversitysById(id).stream().map(universityData -> new UniversityGetResponse(universityData.name(), universityData.students(), universityData.location())).collect(Collectors.toList()));
+    return rateLimiter.executeSupplier(() -> {
+      return ResponseEntity.status(HttpStatus.OK)
+          .body(universityService.getAllUniversitiesById(id).stream().map(universityData -> new UniversityGetResponse(universityData.name(), universityData.students(), universityData.location())).collect(Collectors.toList()));
+    });
   }
 
   @Override
   public ResponseEntity<List<UniversityGetResponse>> addUniversityToUserById(Long id, UniversityCreateRequest university) {
-    universityService.addUniversity(university);
-    return ResponseEntity.status(HttpStatus.CREATED).build();
+    return rateLimiter.executeSupplier(() -> {
+      universityService.addUniversity(university);
+      return ResponseEntity.status(HttpStatus.CREATED).build();
+    });
   }
 }
