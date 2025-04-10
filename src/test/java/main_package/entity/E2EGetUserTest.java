@@ -18,10 +18,9 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
-@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("my_app_test")
-class E2EGetUserTest {
+public class E2EGetUserTest {
   private static final UserGetResponse testUserResponse =
           new UserGetResponse("genius", 6L);
 
