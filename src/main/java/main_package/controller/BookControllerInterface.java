@@ -58,12 +58,6 @@ public interface BookControllerInterface {
   @DeleteMapping("/book/{bookId}")
   ResponseEntity<BookDeleteResponse> deleteBookByUserId(@Parameter(description = "ID пользователя") @PathVariable Long userId, @Parameter(description = "ID книги") @PathVariable Long bookId);
 
-  @Operation(summary = "Создать пустой список книг для пользователя")
-  @ApiResponse(responseCode = "201", description = "Список книг создан")
-  @ApiResponse(responseCode = "200", description = "Список книг создан")
-  @PostMapping("/book")
-  ResponseEntity<Void> createBooksForUserById(@Parameter(description = "ID пользователя") @PathVariable Long userId);
-
   @Operation(summary = "Получить книгу пользователя")
   @ApiResponse(responseCode = "200", description = "Книга найдена")
   @ApiResponse(

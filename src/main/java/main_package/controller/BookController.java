@@ -2,6 +2,7 @@ package main_package.controller;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import lombok.extern.slf4j.Slf4j;
+import main_package.entity.Book;
 import main_package.entity.BookData;
 import main_package.request.BookCreateRequest;
 import main_package.response.BookDeleteResponse;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequestMapping("/api/user/{userId}")
-public class BookController implements BookControllerInterface{
+public class BookController implements BookControllerInterface {
   private final BookService bookService;
   private final CircuitBreaker circuitBreaker = CircuitBreaker.ofDefaults("BookControllerCircuitBreaker");
 
@@ -30,7 +31,7 @@ public class BookController implements BookControllerInterface{
   public ResponseEntity<List<BookGetResponse>> getAllBooksByUserId(Long userId) {
     return circuitBreaker.executeSupplier(() -> {
       return ResponseEntity.status(HttpStatus.OK)
-          .body(bookService.getAllBooksById(userId).stream().map(bookData -> new BookGetResponse(bookData.name(), bookData.pages(), bookData.author())).collect(Collectors.toList()));
+          .body(bookService.getAllBooksById(userId).stream().map(bookData -> new BookGetResponse(bookData.getName(), bookData.getPages(), bookData.getAuthor())).collect(Collectors.toList()));
     });
   }
 
@@ -45,33 +46,25 @@ public class BookController implements BookControllerInterface{
   @Override
   public ResponseEntity<BookPatchResponse> modifyBookByUserId(Long userId, Long bookId, BookCreateRequest book) {
     return circuitBreaker.executeSupplier(() -> {
-      BookData newBook = bookService.modifyBookById(userId, bookId, book);
-      return ResponseEntity.status(HttpStatus.OK).body(new BookPatchResponse(newBook.name(), newBook.pages(), newBook.author()));
+      Book newBook = bookService.modifyBookById(userId, bookId, book);
+      return ResponseEntity.status(HttpStatus.OK).body(new BookPatchResponse(newBook.getName(), newBook.getPages(), newBook.getAuthor()));
     });
   }
 
   @Override
   public ResponseEntity<BookDeleteResponse> deleteBookByUserId(Long userId, Long bookId) {
     return circuitBreaker.executeSupplier(() -> {
-      BookData oldBook = bookService.deleteBookById(userId, bookId);
+      Book oldBook = bookService.deleteBookById(bookId);
       log.info(oldBook.toString());
 
-      return ResponseEntity.status(HttpStatus.OK).body(new BookDeleteResponse(oldBook.name(), oldBook.pages(), oldBook.author()));
-    });
-  }
-
-  @Override
-  public ResponseEntity<Void> createBooksForUserById(Long userId) {
-    return circuitBreaker.executeSupplier(() -> {
-      bookService.createBooksForUserById(userId);
-      return ResponseEntity.status(HttpStatus.CREATED).build();
+      return ResponseEntity.status(HttpStatus.OK).body(new BookDeleteResponse(oldBook.getName(), oldBook.getPages(), oldBook.getAuthor()));
     });
   }
 
   @Override
   public ResponseEntity<BookGetResponse> getBookById(Long userId, Long bookId) {
     return circuitBreaker.executeSupplier(() -> {
-      BookData book = bookService.getBookById(userId, bookId);
+      Book book = bookService.getBookById(bookId);
       //log.info(book.toString() + "??????????????");
       return ResponseEntity.status(HttpStatus.OK)
           .body(new BookGetResponse("Dan", 10L, "dan"));

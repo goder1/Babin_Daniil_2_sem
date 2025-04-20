@@ -1,6 +1,10 @@
 package main_package.service;
 
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import main_package.entity.Book;
 import main_package.entity.BookData;
 import main_package.exception.BookNotFoundException;
 import main_package.repository.BookRepository;
@@ -11,65 +15,64 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class BookService {
   private final BookRepository bookRepository;
 
-  public BookService(BookRepository bookRepository) {
-    this.bookRepository = bookRepository;
-  }
-
+  @Transactional
   @Async("taskExecutor")
   public void addBook(Long userId, BookCreateRequest request) {
     log.info("Creating new book with name: {}, author: {}", request.name(), request.author());
-    Long bookId = bookRepository.createBook(new BookData(request.name(), request.pages(), request.author()));
-    log.info("Added new book with id: {} to user with id: {}", bookId, userId);
+    Book book = bookRepository.save(new Book(null, request.name(), request.pages(), request.author()));
+    log.info("Added new book with id: {} to user with id: {}", book.getId(), userId);
   }
 
+  @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
   @Async("taskExecutor")
-  public ArrayList<BookData> getAllBooksById(Long userId) {
+  public List<Book> getAllBooksById(Long userId) {
     log.info("Getting books from user with id: {}", userId);
-    ArrayList<BookData> books = bookRepository.getBooksById(userId);
+    List<Book> books = bookRepository.findAllById(Collections.singleton(userId));
     log.info("Found books from user with id: {}", userId);
     return books;
   }
 
+  @Transactional
   @Async("taskExecutor")
-  public BookData modifyBookById(Long userId, Long bookId, BookCreateRequest request) {
+  public Book modifyBookById(Long userId, Long bookId, BookCreateRequest request) {
     log.info("Modifying book with user_id: {} and book_id: {}", userId, bookId);
-    BookData newBook = bookRepository.modifyBookById(userId, bookId, new BookData(request.name(), request.pages(), request.author()));
+    Book newBook = bookRepository.save(new Book(bookId, request.name(), request.pages(), request.author()));
     log.info("Modified user book with user_id: {} and book_id: {}", userId, bookId);
     return newBook;
   }
 
 //  Удаление является важной операцией, меняющей данные в бд,
 //  следовательно ей стоит выполняться корректно
+  @Transactional
   @Retryable(value = BookNotFoundException.class, maxAttempts = 5, backoff = @Backoff(delay = 10000))
   @Async("taskExecutor")
-  public BookData deleteBookById(Long userId, Long bookId) {
-    log.info("Deleting book with user_id: {} and book_id: {}", userId, bookId);
-    BookData oldBook = bookRepository.deleteBookById(userId, bookId);
+  public Book deleteBookById(Long bookId) {
+    log.info("Deleting book with book_id: {}", bookId);
+    Book book = bookRepository.findById(bookId).orElseThrow(BookNotFoundException::new);
+    bookRepository.deleteById(bookId);
 
-    log.info("Deleted user book with user_id: {} and book_id: {}", userId, bookId);
-    return oldBook;
+    log.info("Deleted user book with book_id: {}", bookId);
+    return book;
 //    return new BookData("Dan", 19L, "dan");
   }
 
+  @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
   @Async("taskExecutor")
-  public void createBooksForUserById(Long userId) {
-    log.info("Creating new list of books for user with id: {}", userId);
-    bookRepository.createBooksForUserById(userId);
-    log.info("Created new empty list of books for user with id: {}", userId);
-  }
-
-  @Async("taskExecutor")
-  public BookData getBookById(Long userId, Long bookId) {
-    log.info("Getting book from user with id: {} and book with id: {}", userId, bookId);
-    BookData book = bookRepository.getBookById(userId, bookId);
+  public Book getBookById(Long bookId) {
+    log.info("Getting book with id: {}", bookId);
+    Book book = bookRepository.findById(bookId).orElseThrow(BookNotFoundException::new);
     log.info(book.toString() + "_________");
-    log.info("Successfully got book from user with id: {} and book with id: {}", userId, bookId);
+    log.info("Successfully got book with id: {}", bookId);
     return book;
     //return new BookData("Dan", 19L, "Dan");
   }

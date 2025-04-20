@@ -2,6 +2,7 @@ package main_package.controller;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.ratelimiter.RateLimiter;
+import main_package.entity.Course;
 import main_package.entity.CourseData;
 import main_package.request.CourseCreateRequest;
 import main_package.response.CourseDeleteResponse;
@@ -30,7 +31,7 @@ public class CourseController implements CourseControllerInterface{
   public ResponseEntity<List<CourseGetResponse>> getAllCoursesByUserId(Long userId) {
     return circuitBreaker.executeSupplier(() -> rateLimiter.executeSupplier(() -> {
       return ResponseEntity.status(HttpStatus.OK)
-          .body(courseService.getAllCoursesById(userId).stream().map(courseData -> new CourseGetResponse(courseData.name())).collect(Collectors.toList()));
+          .body(courseService.getAllCoursesById(userId).stream().map(courseData -> new CourseGetResponse(courseData.getName())).collect(Collectors.toList()));
     }));
   }
 
@@ -45,8 +46,8 @@ public class CourseController implements CourseControllerInterface{
   @Override
   public ResponseEntity<CoursePatchResponse> modifyCourseByUserId(Long userId, Long courseId, CourseCreateRequest course) {
     return circuitBreaker.executeSupplier(() -> rateLimiter.executeSupplier(() -> {
-      CourseData newCourse = courseService.modifyCourseById(userId, courseId, course);
-      return ResponseEntity.status(HttpStatus.OK).body(new CoursePatchResponse(newCourse.name()));
+      Course newCourse = courseService.modifyCourseById(userId, courseId, course);
+      return ResponseEntity.status(HttpStatus.OK).body(new CoursePatchResponse(newCourse.getName()));
     }));
   }
 

@@ -45,7 +45,7 @@ public class BookControllerMVCTest {
   @Test
   public void testGetBookSuccess() throws Exception {
     BookData book = new BookData("Dan", 10L, "dan");
-    when(bookService.getBookById(1L, 1L))
+    when(bookService.getBookById(1L))
             .thenReturn(book);
 
     mockMvc.perform(get(basePath + "/1"))
@@ -54,7 +54,7 @@ public class BookControllerMVCTest {
             .andExpect(jsonPath("$.name").value("Dan"))
             .andExpect(jsonPath("$.pages").value(10L))
             .andExpect(jsonPath("$.author").value("dan"));
-    verify(bookService).getBookById(1L, 1L);
+    verify(bookService).getBookById(1L);
   }
 
   @Test

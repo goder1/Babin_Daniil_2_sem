@@ -1,5 +1,6 @@
 package main_package.controller;
 
+import main_package.entity.User;
 import main_package.entity.UserData;
 import main_package.request.UserCreateRequest;
 import main_package.response.UserCreateResponse;
@@ -20,8 +21,8 @@ public class UserController implements UserControllerInterface{
 
   @Override
   public ResponseEntity<UserCreateResponse> createUser(UserCreateRequest request) {
-    UserData newUser = userService.createUser(request);
-    return ResponseEntity.status(HttpStatus.CREATED).body(new UserCreateResponse(newUser.name(), newUser.age()));
+    User newUser = userService.createUser(request);
+    return ResponseEntity.status(HttpStatus.CREATED).body(new UserCreateResponse(newUser.getName(), newUser.getAge()));
   }
 
   @Override
