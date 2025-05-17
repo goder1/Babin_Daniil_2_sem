@@ -19,11 +19,12 @@ public class LoggingAspect {
 
   // Самый мощный совет, контролирует выполнение метода
   @Around("execution(* main_package.controller.*.*(..))")
-  public void measureExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
+  public Object measureExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
     long startTime = System.currentTimeMillis();
     Object result = joinPoint.proceed(); // Вызов целевого метода
     long duration = System.currentTimeMillis() - startTime;
     log.info("Метод " + joinPoint.getSignature().getName()
             + " выполнен за " + duration + " мс");
+    return result;
   }
 }

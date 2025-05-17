@@ -27,6 +27,7 @@ public class UserController implements UserControllerInterface{
   @Override
   public ResponseEntity<UserGetResponse> getUserById(Long id) {
     UserData user = userService.getUserDataById(id);
-    return ResponseEntity.status(HttpStatus.OK).body(new UserGetResponse(user.name(), user.age()));
+    UserGetResponse result = user != null ? new UserGetResponse(user.name(), user.age()) : new UserGetResponse("ivan", 16L);
+    return ResponseEntity.status(HttpStatus.OK).body(result);
   }
 }
