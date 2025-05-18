@@ -26,9 +26,9 @@ class LoggingAspectTest {
     int currentCnt = loggingAspect.getCnt();
 
     BookCreateRequest request = new BookCreateRequest("name", 10L, "bombastic");
-    ResponseEntity<Void> response = restTemplate.postForEntity("/api/1/book", request, Void.class);
-
-    assertTrue(response.getStatusCode().isSameCodeAs(HttpStatus.CREATED));
+    ResponseEntity<Void> response = restTemplate.withBasicAuth("admin", "secret").postForEntity("/api/user/1/book", request, Void.class);
+    assertEquals(HttpStatus.CREATED, response.getStatusCode());
+//    assertTrue(response.getStatusCode().isSameCodeAs(HttpStatus.CREATED));
 
     assertEquals(2L, loggingAspect.getCnt());
   }

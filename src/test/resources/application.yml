@@ -2,5 +2,5 @@ spring:
   application:
     name: "my_app_test"
 
-server:
-  port: 1337
+#server:
+#  port: 1337

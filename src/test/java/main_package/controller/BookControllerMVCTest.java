@@ -76,11 +76,12 @@ public class BookControllerMVCTest {
   @Test
   public void testPatchBookFail() throws Exception {
     BookCreateRequest patchRequest = new BookCreateRequest("Dan", 19L, "dan");
+    String requestBody = objectMapper.writeValueAsString(patchRequest);
 
     when(bookService.modifyBookById(1L, 4L, patchRequest)).thenThrow(BookNotFoundException.class);
 
     mockMvc.perform(
-                    patch(basePath + "/4")
+                    patch(basePath + "/4").contentType(jsonContentType).content(requestBody)
             )
             .andExpect(status().isNotFound());
   }
