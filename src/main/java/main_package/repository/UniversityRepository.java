@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 
+@Repository
 public interface UniversityRepository extends JpaRepository<University, Long> {
   ArrayList<UniversityData> getAllUniversitiesDataById(Long id) throws UniversitiesNotFoundException;
 }

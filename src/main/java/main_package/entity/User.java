@@ -21,13 +21,13 @@ public class User {
   private Long age;
 
   @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = {CascadeType.PERSIST})
-  private ArrayList<BookData> books = new ArrayList<>();
+  private ArrayList<Book> books = new ArrayList<>();
 
   @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = {CascadeType.PERSIST})
-  private ArrayList<CourseData> courses = new ArrayList<>();
+  private ArrayList<Course> courses = new ArrayList<>();
 
   @OneToMany(mappedBy = "user", orphanRemoval = true, cascade = {CascadeType.PERSIST})
-  private ArrayList<UniversityData> universities = new ArrayList<>();
+  private ArrayList<University> universities = new ArrayList<>();
 
   protected User() {}
 

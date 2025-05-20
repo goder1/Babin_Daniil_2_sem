@@ -1,11 +1,13 @@
 package main_package.entity;
 
 import lombok.extern.slf4j.Slf4j;
+import main_package.Application;
 import main_package.response.UserGetResponse;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -14,15 +16,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Testcontainers
 @Slf4j
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("my_app_test")
 public class E2EGetUserTest {
   private static final UserGetResponse testUserResponse =
-          new UserGetResponse("genius", 6L);
+      new UserGetResponse("genius", 6L);
 
   @LocalServerPort
   private int port;
@@ -30,7 +35,7 @@ public class E2EGetUserTest {
   @Autowired
   private TestRestTemplate restTemplate;
 
-  @ClassRule
+  @Container
   public static PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:13")
       .withDatabaseName("mydb")
       .withUsername("myuser")
@@ -44,6 +49,8 @@ public class E2EGetUserTest {
     String password = postgresContainer.getPassword();
 
     log.info("postgres: " + jdbcUrl);
+
+    assertTrue(postgresContainer.isRunning());
 
     String url = "http://localhost:" + port + "/api/user/1";
     ResponseEntity<UserGetResponse> response = restTemplate.getForEntity(url, UserGetResponse.class);

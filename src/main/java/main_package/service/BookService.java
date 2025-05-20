@@ -44,10 +44,10 @@ public class BookService {
 
   @Transactional
   @Async("taskExecutor")
-  public Book modifyBookById(Long userId, Long bookId, BookCreateRequest request) {
-    log.info("Modifying book with user_id: {} and book_id: {}", userId, bookId);
+  public Book modifyBookById(Long bookId, BookCreateRequest request) {
+    log.info("Modifying book with id: {}", bookId);
     Book newBook = bookRepository.save(new Book(bookId, request.name(), request.pages(), request.author()));
-    log.info("Modified user book with user_id: {} and book_id: {}", userId, bookId);
+    log.info("Modified user book with id: {}", bookId);
     return newBook;
   }
 

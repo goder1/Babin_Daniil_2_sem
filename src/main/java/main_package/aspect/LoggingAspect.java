@@ -1,11 +1,13 @@
 package main_package.aspect;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 
+@Getter
 @Slf4j
 @Aspect
 @Component
@@ -20,7 +22,7 @@ public class LoggingAspect {
 
   // Самый мощный совет, контролирует выполнение метода
   @Around("execution(* main_package.controller.*.*(..))")
-  public void measureExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
+  public Object measureExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
     long startTime = System.currentTimeMillis();
     cnt++;
     Object result = joinPoint.proceed(); // Вызов целевого метода
@@ -28,9 +30,6 @@ public class LoggingAspect {
     long duration = System.currentTimeMillis() - startTime;
     log.info("Метод " + joinPoint.getSignature().getName()
             + " выполнен за " + duration + " мс");
-  }
-
-  public int getCnt() {
-    return cnt;
+    return result;
   }
 }

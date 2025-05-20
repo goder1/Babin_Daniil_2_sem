@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequestMapping("/api/user/{userId}")
-public class BookController implements BookControllerInterface {
+public class BookController implements BookControllerInterface{
   private final BookService bookService;
   private final CircuitBreaker circuitBreaker = CircuitBreaker.ofDefaults("BookControllerCircuitBreaker");
 
@@ -44,15 +44,15 @@ public class BookController implements BookControllerInterface {
   }
 
   @Override
-  public ResponseEntity<BookPatchResponse> modifyBookByUserId(Long userId, Long bookId, BookCreateRequest book) {
+  public ResponseEntity<BookPatchResponse> modifyBookByUserId(Long bookId, BookCreateRequest book) {
     return circuitBreaker.executeSupplier(() -> {
-      Book newBook = bookService.modifyBookById(userId, bookId, book);
+      Book newBook = bookService.modifyBookById(bookId, book);
       return ResponseEntity.status(HttpStatus.OK).body(new BookPatchResponse(newBook.getName(), newBook.getPages(), newBook.getAuthor()));
     });
   }
 
   @Override
-  public ResponseEntity<BookDeleteResponse> deleteBookByUserId(Long userId, Long bookId) {
+  public ResponseEntity<BookDeleteResponse> deleteBookByUserId(Long bookId) {
     return circuitBreaker.executeSupplier(() -> {
       Book oldBook = bookService.deleteBookById(bookId);
       log.info(oldBook.toString());
@@ -62,7 +62,7 @@ public class BookController implements BookControllerInterface {
   }
 
   @Override
-  public ResponseEntity<BookGetResponse> getBookById(Long userId, Long bookId) {
+  public ResponseEntity<BookGetResponse> getBookById(Long bookId) {
     return circuitBreaker.executeSupplier(() -> {
       Book book = bookService.getBookById(bookId);
       //log.info(book.toString() + "??????????????");

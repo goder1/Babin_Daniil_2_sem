@@ -22,9 +22,9 @@ public interface BookControllerInterface {
   @Operation(summary = "Получить книги пользователя")
   @ApiResponse(responseCode = "200", description = "Книги найдены")
   @ApiResponse(
-          responseCode = "404",
-          description = "Книги не найдены",
-          content = @Content(schema = @Schema(implementation = BooksNotFoundException.class))
+      responseCode = "404",
+      description = "Книги не найдены",
+      content = @Content(schema = @Schema(implementation = BooksNotFoundException.class))
   )
   @GetMapping("/book")
   ResponseEntity<List<BookGetResponse>> getAllBooksByUserId(@Parameter(description = "ID пользователя") @PathVariable Long userId);
@@ -40,31 +40,31 @@ public interface BookControllerInterface {
   @ApiResponse(responseCode = "204", description = "Книга изменена")
   @ApiResponse(responseCode = "200", description = "Книга изменена")
   @ApiResponse(
-          responseCode = "404",
-          description = "Книга не найдена",
-          content = @Content(schema = @Schema(implementation = BookNotFoundException.class))
+      responseCode = "404",
+      description = "Книга не найдена",
+      content = @Content(schema = @Schema(implementation = BookNotFoundException.class))
   )
   @PatchMapping("/book/{bookId}")
-  ResponseEntity<BookPatchResponse> modifyBookByUserId(@Parameter(description = "ID пользователя") @PathVariable Long userId, @Parameter(description = "ID книги") @PathVariable Long bookId, @RequestBody BookCreateRequest book);
+  ResponseEntity<BookPatchResponse> modifyBookByUserId(@Parameter(description = "ID книги") @PathVariable Long bookId, @RequestBody BookCreateRequest book);
 
   @Operation(summary = "Удалить книгу по ID")
   @ApiResponse(responseCode = "204", description = "Книга удалена")
   @ApiResponse(responseCode = "200", description = "Книга удалена")
   @ApiResponse(
-          responseCode = "404",
-          description = "Книга не найдена",
-          content = @Content(schema = @Schema(implementation = BookNotFoundException.class))
+      responseCode = "404",
+      description = "Книга не найдена",
+      content = @Content(schema = @Schema(implementation = BookNotFoundException.class))
   )
   @DeleteMapping("/book/{bookId}")
-  ResponseEntity<BookDeleteResponse> deleteBookByUserId(@Parameter(description = "ID пользователя") @PathVariable Long userId, @Parameter(description = "ID книги") @PathVariable Long bookId);
+  ResponseEntity<BookDeleteResponse> deleteBookByUserId(@Parameter(description = "ID книги") @PathVariable Long bookId);
 
   @Operation(summary = "Получить книгу пользователя")
   @ApiResponse(responseCode = "200", description = "Книга найдена")
   @ApiResponse(
-          responseCode = "404",
-          description = "Книга не найдена",
-          content = @Content(schema = @Schema(implementation = BookNotFoundException.class))
+      responseCode = "404",
+      description = "Книга не найдена",
+      content = @Content(schema = @Schema(implementation = BookNotFoundException.class))
   )
   @GetMapping("/book/{bookId}")
-  ResponseEntity<BookGetResponse> getBookById(@Parameter(description = "ID пользователя") @PathVariable Long userId, @Parameter(description = "ID книги") @PathVariable Long bookId);
+  ResponseEntity<BookGetResponse> getBookById(@Parameter(description = "ID книги") @PathVariable Long bookId);
 }

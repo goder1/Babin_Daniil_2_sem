@@ -1,28 +1,24 @@
 CREATE TABLE users (
-    id BIGINT PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL,
     age BIGINT NOT NULL
 );
 
 CREATE TABLE books (
-    id BIGINT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
     pages BIGINT NOT NULL,
-    author VARCHAR(50) NOT NULL,
-    user_id BIGINT,
-    CONSTRAINT fk_user
-        FOREIGN KEY (user_id)
-        REFERENCES users(id)
+    author VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE courses (
-    id BIGINT PRIMARY KEY,
+    id BIGSERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE universities (
-    id BIGINT PRIMARY KEY,
-    name VARCHAR(50) NOT NULL,
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
     students BIGINT NOT NULL,
     location VARCHAR(50) NOT NULL
 );

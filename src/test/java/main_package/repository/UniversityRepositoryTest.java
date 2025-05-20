@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional(value = NOT_SUPPORTED)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Testcontainers
-@ActiveProfiles("test")
+@ActiveProfiles("my_app_test")
 public class UniversityRepositoryTest {
 
   @Container
