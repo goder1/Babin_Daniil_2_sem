@@ -5,7 +5,6 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import main_package.entity.Book;
-import main_package.entity.BookData;
 import main_package.exception.BookNotFoundException;
 import main_package.repository.BookRepository;
 import main_package.request.BookCreateRequest;
@@ -14,10 +13,8 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service

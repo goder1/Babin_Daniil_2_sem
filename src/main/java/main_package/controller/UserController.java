@@ -1,7 +1,6 @@
 package main_package.controller;
 
 import main_package.entity.User;
-import main_package.entity.UserData;
 import main_package.request.UserCreateRequest;
 import main_package.response.UserCreateResponse;
 import main_package.response.UserGetResponse;

@@ -1,7 +1,6 @@
 package main_package.repository;
 
 import main_package.entity.University;
-import main_package.entity.UniversityData;
 import main_package.exception.UniversitiesNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

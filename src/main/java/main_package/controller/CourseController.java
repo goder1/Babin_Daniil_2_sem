@@ -3,7 +3,6 @@ package main_package.controller;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.ratelimiter.RateLimiter;
 import main_package.entity.Course;
-import main_package.entity.CourseData;
 import main_package.request.CourseCreateRequest;
 import main_package.response.CourseDeleteResponse;
 import main_package.response.CoursePatchResponse;

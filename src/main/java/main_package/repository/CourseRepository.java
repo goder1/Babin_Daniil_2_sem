@@ -1,8 +1,6 @@
 package main_package.repository;
 
 import main_package.entity.Course;
-import main_package.entity.CourseData;
-import main_package.exception.CourseNotFoundException;
 import main_package.exception.CoursesNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

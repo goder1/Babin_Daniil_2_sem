@@ -2,7 +2,6 @@ package main_package.service;
 
 import lombok.extern.slf4j.Slf4j;
 import main_package.entity.University;
-import main_package.entity.UniversityData;
 import main_package.repository.UniversityRepository;
 import main_package.request.UniversityCreateRequest;
 import org.springframework.stereotype.Service;

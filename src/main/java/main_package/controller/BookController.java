@@ -3,7 +3,6 @@ package main_package.controller;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import lombok.extern.slf4j.Slf4j;
 import main_package.entity.Book;
-import main_package.entity.BookData;
 import main_package.request.BookCreateRequest;
 import main_package.response.BookDeleteResponse;
 import main_package.response.BookGetResponse;

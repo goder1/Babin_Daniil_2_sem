@@ -2,17 +2,12 @@ package main_package.service;
 
 import lombok.extern.slf4j.Slf4j;
 import main_package.entity.Course;
-import main_package.entity.CourseData;
-import main_package.entity.CourseData;
-import main_package.entity.CourseData;
 import main_package.repository.CourseRepository;
-import main_package.request.CourseCreateRequest;
 import main_package.request.CourseCreateRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
