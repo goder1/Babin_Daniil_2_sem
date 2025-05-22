@@ -53,8 +53,8 @@ public class CourseController implements CourseControllerInterface{
   @Override
   public ResponseEntity<CourseDeleteResponse> deleteCourseByUserId(Long userId, Long courseId) {
     return circuitBreaker.executeSupplier(() -> rateLimiter.executeSupplier(() -> {
-      CourseData oldCourse = courseService.deleteCourseById(userId, courseId);
-      return ResponseEntity.status(HttpStatus.OK).body(new CourseDeleteResponse(oldCourse.name()));
+      Course oldCourse = courseService.deleteCourseById(userId, courseId);
+      return ResponseEntity.status(HttpStatus.OK).body(new CourseDeleteResponse(oldCourse.getName()));
     }));
   }
 }

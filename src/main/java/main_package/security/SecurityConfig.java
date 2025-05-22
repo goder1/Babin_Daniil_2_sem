@@ -20,11 +20,11 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
-        .csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests((auth) -> auth
             .anyRequest().permitAll()
         )
         .httpBasic(withDefaults());
     return http.build();
+    //        .csrf(AbstractHttpConfigurer::disable)
   }
 }

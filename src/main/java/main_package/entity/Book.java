@@ -30,7 +30,7 @@ public class Book {
   @NotNull
   String author;
 
-  @Column(name = "user")
+//  @Column(name = "user")
   @ManyToOne
   @JoinColumn(name = "userId", referencedColumnName = "userId")
   User user;
@@ -47,6 +47,13 @@ public class Book {
 
   public Book(Long bookId, String name, Long pages, String author) {
     this.bookId = bookId;
+    this.name = name;
+    this.author = author;
+    this.pages = pages;
+    this.user = null;
+  }
+
+  public Book(String name, Long pages, String author) {
     this.name = name;
     this.author = author;
     this.pages = pages;

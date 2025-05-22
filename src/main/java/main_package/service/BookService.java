@@ -24,15 +24,15 @@ public class BookService {
 
   @Transactional
   @Async("taskExecutor")
-  public void addBook(Long userId, BookCreateRequest request) {
+  public void addBook(BookCreateRequest request) {
     log.info("Creating new book with name: {}, author: {}", request.name(), request.author());
-    Book book = bookRepository.save(new Book(null, request.name(), request.pages(), request.author()));
-    log.info("Added new book with id: {} to user with id: {}", book.getId(), userId);
+    Book book = bookRepository.save(new Book(request.name(), request.pages(), request.author()));
+    log.info("Added new book with id: {}", book.getBookId());
   }
 
   @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
   @Async("taskExecutor")
-  public List<Book> getAllBooksById(Long userId) {
+  public List<Book> getAllBooksByUserId(Long userId) {
     log.info("Getting books from user with id: {}", userId);
     List<Book> books = bookRepository.findAllById(Collections.singleton(userId));
     log.info("Found books from user with id: {}", userId);

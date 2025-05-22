@@ -9,5 +9,4 @@ import java.util.ArrayList;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
-  ArrayList<CourseData> getAllCoursesById(Long id) throws CoursesNotFoundException;
 }

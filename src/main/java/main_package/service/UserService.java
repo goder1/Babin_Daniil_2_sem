@@ -2,6 +2,7 @@ package main_package.service;
 
 import lombok.extern.slf4j.Slf4j;
 import main_package.entity.User;
+import main_package.exception.UserNotFoundException;
 import main_package.repository.UserRepository;
 import main_package.request.UserCreateRequest;
 import org.springframework.stereotype.Service;
@@ -27,10 +28,10 @@ public class UserService {
   }
 
   @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-  @Cacheable(value = "users", key = "#userId")
-  public UserData getUserDataById(Long userId) {
+  @Cacheable(value = "users", key = "#user")
+  public User getUserById(Long userId) {
     log.info("Getting user with id: {}", userId);
-    UserData user = userRepository.getUserDataById(userId);
+    User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
     log.info("Found user with id: {}", userId);
     return user;
   }

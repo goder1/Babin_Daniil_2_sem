@@ -19,7 +19,7 @@ import java.util.Set;
 public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private Long userId;
 
   @Column(name = "userName")
   @NotNull
@@ -61,14 +61,14 @@ public class User {
   }
 
   public User(Long id) {
-    this.id = id;
+    this.userId = id;
     this.books = new HashSet<>();
     this.courses = new HashSet<>();
     this.universities = new HashSet<>();
   }
 
   public User(Long id, String name, Long age) {
-    this.id = id;
+    this.userId = id;
     this.name = name;
     this.age = age;
     this.books = new HashSet<>();
@@ -84,7 +84,7 @@ public class User {
     if (!(o instanceof User user)) {
       return false;
     }
-    return id != null && id.equals(user.id);
+    return userId != null && userId.equals(user.userId);
   }
 
   @Override

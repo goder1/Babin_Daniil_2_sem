@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -23,14 +25,14 @@ public class UniversityService {
   public Long addUniversity(UniversityCreateRequest request) {
     log.info("Creating new University with name: {}, location: {}", request.name(), request.location());
     University university = universityRepository.save(new University(null, request.name(), request.students(), request.location()));
-    log.info("Created new University with id: {}", university.getId());
-    return university.getId();
+    log.info("Created new University with id: {}", university.getUniversityId());
+    return university.getUniversityId();
   }
 
   @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-  public ArrayList<UniversityData> getAllUniversitiesById(Long id) {
+  public List<University> getAllUniversitiesById(Long id) {
     log.info("Getting Universities with user id: {}", id);
-    ArrayList<UniversityData> universities = universityRepository.getAllUniversitiesDataById(id);
+    List<University> universities = universityRepository.findAllById(Collections.singleton(id));
     log.info("Found Universities with user id: {}", id);
     return universities;
   }

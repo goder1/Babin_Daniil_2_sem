@@ -24,8 +24,8 @@ public class CourseService {
   public Long addCourse(CourseCreateRequest request) {
     log.info("Creating new course with name: {}", request.name());
     Course course = courseRepository.save(new Course(null, request.name()));
-    log.info("Created new course with id: {}", course.getId());
-    return course.getId();
+    log.info("Created new course with id: {}", course.getCourseId());
+    return course.getCourseId();
   }
 
   @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
@@ -47,10 +47,10 @@ public class CourseService {
 //  Удаление курса должно произойти и произойти ровно один раз, чтобы
 //  у пользователя не снимались деньги за курс, от которого он отписался (например)
   @Transactional
-  public CourseData deleteCourseById(Long userId, Long courseId) {
+  public Course deleteCourseById(Long userId, Long courseId) {
     log.info("Deleting course with user_id: {} and course_id: {}", userId, courseId);
     Long temp = courseId;
-    CourseData oldCourse = null;
+    Course oldCourse = null;
     while (courseRepository.findById(temp).isPresent()) {
       courseRepository.deleteById(temp);
       temp = -1L;

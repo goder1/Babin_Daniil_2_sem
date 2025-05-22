@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/user/{userId}")
-public class BookController implements BookControllerInterface{
+@RequestMapping("/api/book")
+public class BookController implements BookControllerInterface {
   private final BookService bookService;
   private final CircuitBreaker circuitBreaker = CircuitBreaker.ofDefaults("BookControllerCircuitBreaker");
 
@@ -30,20 +30,20 @@ public class BookController implements BookControllerInterface{
   public ResponseEntity<List<BookGetResponse>> getAllBooksByUserId(Long userId) {
     return circuitBreaker.executeSupplier(() -> {
       return ResponseEntity.status(HttpStatus.OK)
-          .body(bookService.getAllBooksById(userId).stream().map(bookData -> new BookGetResponse(bookData.getName(), bookData.getPages(), bookData.getAuthor())).collect(Collectors.toList()));
+          .body(bookService.getAllBooksByUserId(userId).stream().map(bookData -> new BookGetResponse(bookData.getName(), bookData.getPages(), bookData.getAuthor())).collect(Collectors.toList()));
     });
   }
 
   @Override
-  public ResponseEntity<Void> addBookToUserById(Long userId, BookCreateRequest book) {
+  public ResponseEntity<Void> addBook(BookCreateRequest book) {
     return circuitBreaker.executeSupplier(() -> {
-      bookService.addBook(userId, book);
+      bookService.addBook(book);
       return ResponseEntity.status(HttpStatus.CREATED).build();
     });
   }
 
   @Override
-  public ResponseEntity<BookPatchResponse> modifyBookByUserId(Long bookId, BookCreateRequest book) {
+  public ResponseEntity<BookPatchResponse> modifyBookById(Long bookId, BookCreateRequest book) {
     return circuitBreaker.executeSupplier(() -> {
       Book newBook = bookService.modifyBookById(bookId, book);
       return ResponseEntity.status(HttpStatus.OK).body(new BookPatchResponse(newBook.getName(), newBook.getPages(), newBook.getAuthor()));
@@ -51,7 +51,7 @@ public class BookController implements BookControllerInterface{
   }
 
   @Override
-  public ResponseEntity<BookDeleteResponse> deleteBookByUserId(Long bookId) {
+  public ResponseEntity<BookDeleteResponse> deleteBookById(Long bookId) {
     return circuitBreaker.executeSupplier(() -> {
       Book oldBook = bookService.deleteBookById(bookId);
       log.info(oldBook.toString());

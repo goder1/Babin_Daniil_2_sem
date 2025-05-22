@@ -26,14 +26,14 @@ public interface BookControllerInterface {
       description = "Книги не найдены",
       content = @Content(schema = @Schema(implementation = BooksNotFoundException.class))
   )
-  @GetMapping("/book")
+  @GetMapping("/{userId}")
   ResponseEntity<List<BookGetResponse>> getAllBooksByUserId(@Parameter(description = "ID пользователя") @PathVariable Long userId);
 
   @Operation(summary = "Добавить книгу для пользователя по ID")
   @ApiResponse(responseCode = "201", description = "Книга добавлена")
   @ApiResponse(responseCode = "200", description = "Книга добавлена")
-  @PutMapping("/book")
-  ResponseEntity<Void> addBookToUserById(@Parameter(description = "ID пользователя") @PathVariable Long userId, @RequestBody BookCreateRequest book);
+  @PutMapping("/")
+  ResponseEntity<Void> addBook(@RequestBody BookCreateRequest book);
 
 
   @Operation(summary = "Изменить данные книги")
@@ -44,8 +44,8 @@ public interface BookControllerInterface {
       description = "Книга не найдена",
       content = @Content(schema = @Schema(implementation = BookNotFoundException.class))
   )
-  @PatchMapping("/book/{bookId}")
-  ResponseEntity<BookPatchResponse> modifyBookByUserId(@Parameter(description = "ID книги") @PathVariable Long bookId, @RequestBody BookCreateRequest book);
+  @PatchMapping("/{bookId}")
+  ResponseEntity<BookPatchResponse> modifyBookById(@Parameter(description = "ID книги") @PathVariable Long bookId, @RequestBody BookCreateRequest book);
 
   @Operation(summary = "Удалить книгу по ID")
   @ApiResponse(responseCode = "204", description = "Книга удалена")
@@ -55,8 +55,8 @@ public interface BookControllerInterface {
       description = "Книга не найдена",
       content = @Content(schema = @Schema(implementation = BookNotFoundException.class))
   )
-  @DeleteMapping("/book/{bookId}")
-  ResponseEntity<BookDeleteResponse> deleteBookByUserId(@Parameter(description = "ID книги") @PathVariable Long bookId);
+  @DeleteMapping("/{bookId}")
+  ResponseEntity<BookDeleteResponse> deleteBookById(@Parameter(description = "ID книги") @PathVariable Long bookId);
 
   @Operation(summary = "Получить книгу пользователя")
   @ApiResponse(responseCode = "200", description = "Книга найдена")
@@ -65,6 +65,6 @@ public interface BookControllerInterface {
       description = "Книга не найдена",
       content = @Content(schema = @Schema(implementation = BookNotFoundException.class))
   )
-  @GetMapping("/book/{bookId}")
+  @GetMapping("/{bookId}")
   ResponseEntity<BookGetResponse> getBookById(@Parameter(description = "ID книги") @PathVariable Long bookId);
 }

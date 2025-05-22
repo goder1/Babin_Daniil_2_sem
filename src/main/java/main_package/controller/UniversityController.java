@@ -25,7 +25,7 @@ public class UniversityController implements UniversityControllerInterface{
   public ResponseEntity<List<UniversityGetResponse>> getAllUniversitiesByUserId(Long id) {
     return rateLimiter.executeSupplier(() -> {
       return ResponseEntity.status(HttpStatus.OK)
-          .body(universityService.getAllUniversitiesById(id).stream().map(universityData -> new UniversityGetResponse(universityData.name(), universityData.students(), universityData.location())).collect(Collectors.toList()));
+          .body(universityService.getAllUniversitiesById(id).stream().map(universityData -> new UniversityGetResponse(universityData.getName(), universityData.getStudents(), universityData.getLocation())).collect(Collectors.toList()));
     });
   }
 

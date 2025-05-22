@@ -34,7 +34,7 @@ public class UniversityRepositoryTest {
   @Test
   void addUniversityTest() {
     University university = universityRepository.save(new University(null, "UserName", 2L, "dolgoprudniy"));
-    University responseUniversity = universityRepository.findById(university.getId()).orElseThrow();
+    University responseUniversity = universityRepository.findById(university.getUniversityId()).orElseThrow();
 
     assertEquals(university, responseUniversity);
   }

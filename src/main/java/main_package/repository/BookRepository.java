@@ -9,5 +9,4 @@ import java.util.ArrayList;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
-  ArrayList<BookData> getBooksById(Long id) throws BooksNotFoundException;
 }

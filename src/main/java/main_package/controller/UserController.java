@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/user")
-public class UserController implements UserControllerInterface{
+public class UserController implements UserControllerInterface {
   private final UserService userService;
 
   public UserController(UserService userService) {
@@ -26,7 +26,7 @@ public class UserController implements UserControllerInterface{
 
   @Override
   public ResponseEntity<UserGetResponse> getUserById(Long id) {
-    UserData user = userService.getUserDataById(id);
-    return ResponseEntity.status(HttpStatus.OK).body(new UserGetResponse(user.name(), user.age()));
+    User user = userService.getUserById(id);
+    return ResponseEntity.status(HttpStatus.OK).body(new UserGetResponse(user.getName(), user.getAge()));
   }
 }
