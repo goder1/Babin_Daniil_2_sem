@@ -26,7 +26,7 @@ public interface BookControllerInterface {
       description = "Книги не найдены",
       content = @Content(schema = @Schema(implementation = BooksNotFoundException.class))
   )
-  @GetMapping("/{userId}")
+  @GetMapping("/user/{userId}")
   ResponseEntity<List<BookGetResponse>> getAllBooksByUserId(@Parameter(description = "ID пользователя") @PathVariable Long userId);
 
   @Operation(summary = "Добавить книгу для пользователя по ID")

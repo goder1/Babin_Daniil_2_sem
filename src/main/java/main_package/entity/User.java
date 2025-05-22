@@ -19,6 +19,7 @@ import java.util.Set;
 public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
   private Long userId;
 
   @Column(name = "userName")
@@ -29,28 +30,28 @@ public class User {
   @NotNull
   private Long age;
 
-  @Column(name = "books")
+//  @Column(name = "books")
   @OneToMany(mappedBy = "user")
   @NotNull
   private Set<Book> books;
 
-  @Column(name = "courses")
+//  @Column(name = "courses")
   @ManyToMany(fetch = FetchType.LAZY)
   @NotNull
   @JoinTable(
       name = "course_and_user",
-      joinColumns = @JoinColumn(name = "userId"),
-      inverseJoinColumns = @JoinColumn(name = "courseId")
+      joinColumns = @JoinColumn(name = "user_id"),
+      inverseJoinColumns = @JoinColumn(name = "course_id")
   )
   private Set<Course> courses;
 
-  @Column(name = "universities")
+//  @Column(name = "universities")
   @ManyToMany(fetch = FetchType.LAZY)
   @NotNull
   @JoinTable(
-      name = "unviersity_and_user",
-      joinColumns = @JoinColumn(name = "userId"),
-      inverseJoinColumns = @JoinColumn(name = "universityId")
+      name = "university_and_user",
+      joinColumns = @JoinColumn(name = "user_id"),
+      inverseJoinColumns = @JoinColumn(name = "university_id")
   )
   private Set<University> universities;
 

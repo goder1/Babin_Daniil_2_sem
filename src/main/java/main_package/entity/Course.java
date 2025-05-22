@@ -25,7 +25,7 @@ public class Course {
   @NotNull
   String name;
 
-  @Column(name="users")
+//  @Column(name="users")
   @NotNull
   @ManyToMany(mappedBy="courses")
   private Set<User> users;

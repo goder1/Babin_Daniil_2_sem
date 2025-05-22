@@ -33,7 +33,7 @@ public class UniversityRepositoryTest {
 
   @Test
   void addUniversityTest() {
-    University university = universityRepository.save(new University(null, "UserName", 2L, "dolgoprudniy"));
+    University university = universityRepository.save(new University("UserName", 2L, "dolgoprudniy"));
     University responseUniversity = universityRepository.findById(university.getUniversityId()).orElseThrow();
 
     assertEquals(university, responseUniversity);
@@ -41,7 +41,9 @@ public class UniversityRepositoryTest {
 
   @Test
   void getAllUniversitiesByIdTest() {
-    Optional<University> responseUniversity = universityRepository.findById(1L);
+    University university = universityRepository.save(new University("UserName", 2L, "dolgoprudniy"));
+    Optional<University> responseUniversity = universityRepository.findById(university.getUniversityId());
+
     assertTrue(responseUniversity.isPresent());
   }
 }

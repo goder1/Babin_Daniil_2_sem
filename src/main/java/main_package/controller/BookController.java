@@ -27,6 +27,7 @@ public class BookController implements BookControllerInterface {
   }
 
   @Override
+  @GetMapping("/user/{userId}")
   public ResponseEntity<List<BookGetResponse>> getAllBooksByUserId(Long userId) {
     return circuitBreaker.executeSupplier(() -> {
       return ResponseEntity.status(HttpStatus.OK)
@@ -35,6 +36,7 @@ public class BookController implements BookControllerInterface {
   }
 
   @Override
+  @PutMapping("/")
   public ResponseEntity<Void> addBook(BookCreateRequest book) {
     return circuitBreaker.executeSupplier(() -> {
       bookService.addBook(book);
@@ -43,6 +45,7 @@ public class BookController implements BookControllerInterface {
   }
 
   @Override
+  @PatchMapping("/{bookId}")
   public ResponseEntity<BookPatchResponse> modifyBookById(Long bookId, BookCreateRequest book) {
     return circuitBreaker.executeSupplier(() -> {
       Book newBook = bookService.modifyBookById(bookId, book);
@@ -51,6 +54,7 @@ public class BookController implements BookControllerInterface {
   }
 
   @Override
+  @DeleteMapping("/{bookId}")
   public ResponseEntity<BookDeleteResponse> deleteBookById(Long bookId) {
     return circuitBreaker.executeSupplier(() -> {
       Book oldBook = bookService.deleteBookById(bookId);
@@ -61,6 +65,7 @@ public class BookController implements BookControllerInterface {
   }
 
   @Override
+  @GetMapping("/{bookId}")
   public ResponseEntity<BookGetResponse> getBookById(Long bookId) {
     return circuitBreaker.executeSupplier(() -> {
       Book book = bookService.getBookById(bookId);

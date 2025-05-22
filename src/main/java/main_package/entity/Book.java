@@ -16,6 +16,7 @@ import lombok.Setter;
 public class Book {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
   private Long bookId;
 
   @Column(name = "name")
@@ -32,7 +33,7 @@ public class Book {
 
 //  @Column(name = "user")
   @ManyToOne
-  @JoinColumn(name = "userId", referencedColumnName = "userId")
+  @JoinColumn(name = "user_id", referencedColumnName = "id")
   User user;
 
   public Book() {}

@@ -33,7 +33,7 @@ public class University {
   @NotNull
   private String location;
 
-  @Column(name="users")
+//  @Column(name="users")
   @NotNull
   @ManyToMany(mappedBy="universities")
   private Set<User> users;
@@ -42,6 +42,13 @@ public class University {
 
   public University(Long universityId, String name, Long students, String location) {
     this.universityId = universityId;
+    this.name = name;
+    this.students = students;
+    this.location = location;
+    this.users = new HashSet<>();
+  }
+
+  public University(String name, Long students, String location) {
     this.name = name;
     this.students = students;
     this.location = location;

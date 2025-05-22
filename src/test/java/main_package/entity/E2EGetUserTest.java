@@ -3,6 +3,7 @@ package main_package.entity;
 import lombok.extern.slf4j.Slf4j;
 import main_package.Application;
 import main_package.response.UserGetResponse;
+import main_package.security.SecurityConfig;
 import org.junit.ClassRule;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -11,9 +12,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -36,6 +39,7 @@ public class E2EGetUserTest {
   private TestRestTemplate restTemplate;
 
   @Container
+  @ServiceConnection
   public static PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:13")
       .withDatabaseName("mydb")
       .withUsername("myuser")
