@@ -1,5 +1,6 @@
 //package main_package.aspect;
 //
+//import main_package.Application;
 //import main_package.request.BookCreateRequest;
 //import main_package.response.BookGetResponse;
 //import org.junit.jupiter.api.Test;
@@ -12,7 +13,7 @@
 //
 //import static org.junit.jupiter.api.Assertions.*;
 //
-//@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+//@SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 //@ActiveProfiles("my_app_test")
 //class LoggingAspectTest {
 //  @Autowired

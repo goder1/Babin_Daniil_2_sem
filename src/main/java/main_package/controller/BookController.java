@@ -26,17 +26,17 @@ public class BookController implements BookControllerInterface {
     this.bookService = bookService;
   }
 
+//  @GetMapping("/user/{userId}")
   @Override
-  @GetMapping("/user/{userId}")
-  public ResponseEntity<List<BookGetResponse>> getAllBooksByUserId(Long userId) {
+  public ResponseEntity<List<BookGetResponse>> getAllBooksByUserId(@PathVariable Long userId) {
     return circuitBreaker.executeSupplier(() -> {
       return ResponseEntity.status(HttpStatus.OK)
           .body(bookService.getAllBooksByUserId(userId).stream().map(bookData -> new BookGetResponse(bookData.getName(), bookData.getPages(), bookData.getAuthor())).collect(Collectors.toList()));
     });
   }
 
+//  @PutMapping("/")
   @Override
-  @PutMapping("/")
   public ResponseEntity<Void> addBook(BookCreateRequest book) {
     return circuitBreaker.executeSupplier(() -> {
       bookService.addBook(book);
@@ -44,18 +44,18 @@ public class BookController implements BookControllerInterface {
     });
   }
 
+//  @PatchMapping("/{bookId}")
   @Override
-  @PatchMapping("/{bookId}")
-  public ResponseEntity<BookPatchResponse> modifyBookById(Long bookId, BookCreateRequest book) {
+  public ResponseEntity<BookPatchResponse> modifyBookById(@PathVariable Long bookId, BookCreateRequest book) {
     return circuitBreaker.executeSupplier(() -> {
       Book newBook = bookService.modifyBookById(bookId, book);
       return ResponseEntity.status(HttpStatus.OK).body(new BookPatchResponse(newBook.getName(), newBook.getPages(), newBook.getAuthor()));
     });
   }
 
+//  @DeleteMapping("/{bookId}")
   @Override
-  @DeleteMapping("/{bookId}")
-  public ResponseEntity<BookDeleteResponse> deleteBookById(Long bookId) {
+  public ResponseEntity<BookDeleteResponse> deleteBookById(@PathVariable Long bookId) {
     return circuitBreaker.executeSupplier(() -> {
       Book oldBook = bookService.deleteBookById(bookId);
       log.info(oldBook.toString());
@@ -64,9 +64,9 @@ public class BookController implements BookControllerInterface {
     });
   }
 
+//  @GetMapping("/{bookId}")
   @Override
-  @GetMapping("/{bookId}")
-  public ResponseEntity<BookGetResponse> getBookById(Long bookId) {
+  public ResponseEntity<BookGetResponse> getBookById(@PathVariable Long bookId) {
     return circuitBreaker.executeSupplier(() -> {
       Book book = bookService.getBookById(bookId);
       //log.info(book.toString() + "??????????????");

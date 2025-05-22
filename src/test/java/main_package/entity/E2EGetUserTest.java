@@ -2,6 +2,8 @@ package main_package.entity;
 
 import lombok.extern.slf4j.Slf4j;
 import main_package.Application;
+import main_package.request.UserCreateRequest;
+import main_package.response.UserCreateResponse;
 import main_package.response.UserGetResponse;
 import main_package.security.SecurityConfig;
 import org.junit.ClassRule;
@@ -42,8 +44,8 @@ public class E2EGetUserTest {
   @ServiceConnection
   public static PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:13")
       .withDatabaseName("mydb")
-      .withUsername("myuser")
-      .withPassword("mypass")
+      .withUsername("admin")
+      .withPassword("secret")
       .withInitScript("init.sql");
 
   @Test
@@ -56,8 +58,16 @@ public class E2EGetUserTest {
 
     assertTrue(postgresContainer.isRunning());
 
+    String urlCreate = "http://localhost:" + port + "/api/user/";
     String url = "http://localhost:" + port + "/api/user/1";
-    ResponseEntity<UserGetResponse> response = restTemplate.getForEntity(url, UserGetResponse.class);
+
+    UserCreateRequest request = new UserCreateRequest("genius", 6L);
+
+    ResponseEntity<UserCreateResponse> responseCreate = restTemplate.withBasicAuth("admin", "secret").postForEntity(urlCreate, request, UserCreateResponse.class);
+
+    assertEquals(HttpStatus.CREATED, responseCreate.getStatusCode());
+
+    ResponseEntity<UserGetResponse> response = restTemplate.withBasicAuth("admin", "secret").getForEntity(url, UserGetResponse.class);
 
     assertEquals(HttpStatus.OK, response.getStatusCode());
     assertEquals(testUserResponse, response.getBody());

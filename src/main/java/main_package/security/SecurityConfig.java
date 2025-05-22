@@ -14,7 +14,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
-@Profile("!my_app_test")
+@Profile("my_app_test")
 public class SecurityConfig {
   @Autowired
   private JwtTokenFilter jwtTokenFilter;
@@ -22,11 +22,12 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
+        .csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests((auth) -> auth
-            .anyRequest().permitAll()
+            .anyRequest().authenticated()//.permitAll()
         )
         .httpBasic(withDefaults());
     return http.build();
-    //        .csrf(AbstractHttpConfigurer::disable)
+
   }
 }

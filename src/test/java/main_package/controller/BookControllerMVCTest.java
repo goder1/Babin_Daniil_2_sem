@@ -60,6 +60,7 @@ public class BookControllerMVCTest {
   @Test
   public void testGetBookSuccess() throws Exception {
     Book book = new Book("Dan", 10L, "dan");
+    book.setBookId(1L);
     when(bookService.getBookById(book.getBookId()))
             .thenReturn(book);
 
@@ -75,7 +76,7 @@ public class BookControllerMVCTest {
   @Test
   public void testDeleteBookSuccess() throws Exception {
     Book book = new Book("Dan", 19L, "dan");
-
+    book.setBookId(1L);
     when(bookService.deleteBookById(book.getBookId()))
             .thenReturn(book);
 

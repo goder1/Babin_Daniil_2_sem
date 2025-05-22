@@ -22,7 +22,7 @@ public class UserService {
   @Transactional
   public User createUser(UserCreateRequest request) {
     log.info("Creating new user with name: {}", request.name());
-    User newUser = userRepository.save(new User(null, request.name(), request.age()));
+    User newUser = userRepository.save(new User(1L, request.name(), request.age()));
     log.info("Created new user");
     return newUser;
   }

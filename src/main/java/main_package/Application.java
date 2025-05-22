@@ -7,10 +7,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
 
-//@EnableJpaRepositories("main_package.repository")
 //@EnableAsync
+//@EnableJpaRepositories("main_package.repository")
+//@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
+//@ComponentScan({"main_package.repository", "main_package.controller", "main_package.service"})
+
 @SpringBootApplication
-@ComponentScan("main_package.repository")
 public class Application {
 
   public static void main(String[] args) {

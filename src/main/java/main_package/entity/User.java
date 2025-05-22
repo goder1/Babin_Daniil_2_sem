@@ -1,5 +1,6 @@
 package main_package.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -24,10 +25,12 @@ public class User {
 
   @Column(name = "userName")
   @NotNull
+  @JsonProperty("name")
   private String name;
 
   @Column(name = "userAge")
   @NotNull
+  @JsonProperty("age")
   private Long age;
 
 //  @Column(name = "books")
