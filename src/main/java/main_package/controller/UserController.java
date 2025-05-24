@@ -1,5 +1,6 @@
 package main_package.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import main_package.entity.User;
 import main_package.request.UserCreateRequest;
 import main_package.response.UserCreateResponse;
@@ -19,13 +20,13 @@ public class UserController implements UserControllerInterface {
   }
 
   @Override
-  public ResponseEntity<UserCreateResponse> createUser(UserCreateRequest request) {
+  public ResponseEntity<UserCreateResponse> createUser(UserCreateRequest request) throws JsonProcessingException {
     User newUser = userService.createUser(request);
     return ResponseEntity.status(HttpStatus.CREATED).body(new UserCreateResponse(newUser.getName(), newUser.getAge()));
   }
 
   @Override
-  public ResponseEntity<UserGetResponse> getUserById(Long id) {
+  public ResponseEntity<UserGetResponse> getUserById(Long id) throws JsonProcessingException {
     User user = userService.getUserById(id);
     return ResponseEntity.status(HttpStatus.OK).body(new UserGetResponse(user.getName(), user.getAge()));
   }

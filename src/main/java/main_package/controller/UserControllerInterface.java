@@ -1,5 +1,6 @@
 package main_package.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -22,7 +23,7 @@ public interface UserControllerInterface {
   @ApiResponse(responseCode = "201", description = "Пользователь создан")
   @ApiResponse(responseCode = "200", description = "Пользователь создан")
   @PostMapping("/")
-  ResponseEntity<UserCreateResponse> createUser(@RequestBody UserCreateRequest request);
+  ResponseEntity<UserCreateResponse> createUser(@RequestBody UserCreateRequest request) throws JsonProcessingException;
 
   @Operation(summary = "Получить пользователя по ID")
   @ApiResponse(responseCode = "200", description = "Пользователь найден")
@@ -32,5 +33,5 @@ public interface UserControllerInterface {
           content = @Content(schema = @Schema(implementation = UserNotFoundException.class))
   )
   @GetMapping("/{id}")
-  ResponseEntity<UserGetResponse> getUserById(@Parameter(description = "ID пользователя") @PathVariable Long id);
+  ResponseEntity<UserGetResponse> getUserById(@Parameter(description = "ID пользователя") @PathVariable Long id) throws JsonProcessingException;
 }
