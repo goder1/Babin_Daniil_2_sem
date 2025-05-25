@@ -31,4 +31,9 @@ public class KafkaProducerService {
     String message = objectMapper.writeValueAsString(id + " - " + action.toString());
     CompletableFuture<SendResult<String, String>> sendResult = kafkaTemplate.send(topic, message);
   }
+
+  public void sendAction(Long id, String action) throws JsonProcessingException {
+    String message = objectMapper.writeValueAsString(id + " - " + action);
+    CompletableFuture<SendResult<String, String>> sendResult = kafkaTemplate.send(topic, message);
+  }
 }

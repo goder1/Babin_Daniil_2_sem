@@ -39,3 +39,9 @@ CREATE TABLE university_and_user (
     university_id BIGINT NOT NULL REFERENCES universities(id),
     PRIMARY KEY (user_id, university_id)
 );
+
+CREATE TABLE outbox
+(
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    value TEXT NOT NULL
+);
